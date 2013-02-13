@@ -17,6 +17,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 // version: 2013-02-13-a
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include "algorithmns.h"
 
@@ -47,7 +48,6 @@ int gcd_array(int in[]) {
     for(int i = 1; i < len; i++) v = gcd_single(in[i], v);
     return v;
 }
-
 // -------------------------------------------------------
 
 // ------------------------------------------------------
@@ -68,6 +68,52 @@ int lcm_array(int in[]) {
     for(int i = 1; i < len; i++) j = lcm_single(in[i], j);
     return j;
 }
-
 // -------------------------------------------------------
 
+
+// ------------------------------------------------------
+// Implementation of a prime number generator 
+// ------------------------------------------------------
+// Creates a generator for prime numbers
+// todo: implement a threaded version
+
+long long primeNumberGenerator(void) {
+    static long long old_number = 0;
+    static long long new_number = 2;
+    static long long n_sieb = 1;
+    static long long *sieb;
+
+    // Handling of the special cases
+    if (new_number == 2) {
+        sieb = calloc(n_sieb, sizeof(long long));
+        sieb[n_sieb - 1] = 2;
+        old_number = 2;
+        new_number = 3;
+        return old_number;
+    }
+    // the main loop for searching the next prime number
+    for (;;) {
+        _Bool istPrimzahl = 1;
+        for (int i = 0; i < n_sieb; i++) {
+            if (new_number % sieb[i]  == 0) {
+                istPrimzahl = 0;
+                break;
+            }
+        }
+        // The loop should only be left, if a next prime
+        // number was found, then this new one will be
+        // returned
+        if (istPrimzahl) {
+            // allocate (the first time), or reallocate enough memory
+            n_sieb += 1;
+            sieb = realloc(sieb, n_sieb * sizeof(long long));
+            sieb[n_sieb - 1] = new_number;
+            old_number = new_number;
+            new_number += 2;
+            return old_number;
+        }
+        new_number += 2;
+    }
+    // Problem! The endless loop was left!
+    return 0;
+}

@@ -24,4 +24,7 @@ int main() {
     printf("gcd of 25, 35, 50, 125 = %d\n", gcd(25, 35, 50, 125));
     printf("gcd of 1 = %d\n", gcd(1));
     printf("lcm of 12, 36, 72 = %d\n", lcm(12, 36, 72));
+    printf("Primzahl: ");
+    for (int i = 0; i < 200; i++) printf("%lld, ", primeNumberGenerator());
+    puts("");    
 }

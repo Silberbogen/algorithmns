@@ -42,5 +42,11 @@ int lcm_array(int in[]);
 #define lcm(...) lcm_array( (int[]){__VA_ARGS__} )
 // -------------------------------------------------------
 
+// ------------------------------------------------------
+//  Implementation of a prime number generator
+// ------------------------------------------------------
+// returns on every call the next prime number, starting
+// with 2
+long long primeNumberGenerator(void);
 
 #endif // _ALGORITHMNS_H
