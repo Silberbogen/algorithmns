@@ -20,7 +20,6 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #include "algorithmns.h"
 
 int main() {
-    printf("gcd %d\n", gcd_single(3, 6));
     printf("gcd of 3, 6, 12, 24, 9 = %d\n", gcd(3, 6, 12, 24, 9));
     printf("gcd of 25, 35, 50, 125 = %d\n", gcd(25, 35, 50, 125));
     printf("gcd of 1 = %d\n", gcd(1));
