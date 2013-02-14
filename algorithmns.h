@@ -14,7 +14,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 
 // File: algorithmns.h
-// version: 2013-02-13-a
+// version: 2013-02-14-a
 
 #ifndef _ALGORITHMNS_H
 #define _ALGORITHMNS_H
@@ -48,5 +48,6 @@ int lcm_array(int in[]);
 // returns on every call the next prime number, starting
 // with 2
 long long primeNumberGenerator(void);
+void resetPrimeNumberGenerator(void);
 
 #endif // _ALGORITHMNS_H

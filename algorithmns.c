@@ -14,10 +14,11 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 
 // File: algorithmns.c
-// version: 2013-02-13-a
+// version: 2013-02-14-a
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <math.h>
 #include "algorithmns.h"
 
@@ -77,12 +78,18 @@ int lcm_array(int in[]) {
 // Creates a generator for prime numbers
 // todo: implement a threaded version
 
-long long primeNumberGenerator(void) {
-    static long long old_number = 0;
-    static long long new_number = 2;
-    static long long n_sieb = 1;
-    static long long *sieb;
+static long long old_number = 0;
+static long long new_number = 2;
+static long long n_sieb = 1;
+static long long *sieb;
 
+long long primeNumberGenerator(void) {
+    static _Bool freeOnExit = false;
+    // defer mechanism to free allocated memory 
+    if (!freeOnExit) {
+        atexit(resetPrimeNumberGenerator);
+        freeOnExit = true;
+    }
     // Handling of the special cases
     if (new_number == 2) {
         sieb = calloc(n_sieb, sizeof(long long));
@@ -93,10 +100,10 @@ long long primeNumberGenerator(void) {
     }
     // the main loop for searching the next prime number
     for (;;) {
-        _Bool istPrimzahl = 1;
+        _Bool istPrimzahl = true;
         for (int i = 0; i < n_sieb; i++) {
             if (new_number % sieb[i]  == 0) {
-                istPrimzahl = 0;
+                istPrimzahl = false;
                 break;
             }
         }
@@ -116,4 +123,12 @@ long long primeNumberGenerator(void) {
     }
     // Problem! The endless loop was left!
     return 0;
+}
+
+void resetPrimeNumberGenerator(void) {
+    old_number = 0;
+    new_number = 2;
+    n_sieb = 1;
+    if (sieb) free(sieb);
+    sieb = 0;
 }
